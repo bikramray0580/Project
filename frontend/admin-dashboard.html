@@ -131,7 +131,7 @@
     async function deleteUser(id) {
       if (!confirm('Delete user?')) return;
       try {
-        await fetchJSON(/auth/users/, { method: 'DELETE' }).catch(()=>{});
+        await fetchJSON('/auth/users/' + id, { method: 'DELETE' })
         await loadAll();
       } catch (e) { alert('Delete user failed',e); }
     }
