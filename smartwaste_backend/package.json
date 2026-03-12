@@ -1,0 +1,20 @@
+{
+    "version": "1.0.0",
+    "name": "smartwaste_backend",
+    "description": "SmartWaste backend",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "bcryptjs": "^3.0.3",
+        "body-parser": "^2.2.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "express-session": "^1.18.2",
+        "sequelize": "^6.37.7",
+        "sqlite3": "^5.1.7"
+    },
+    "main": "index.js"
+}

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartWaste Network - Industrial Waste Exchange</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container container">
+      <h1 class="logo">🌍 SmartWaste Network</h1>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#concept">Concept</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#rewards">Rewards</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1 data-aos="zoom-in">SmartWaste Network</h1>
+      <p class="tagline" data-aos="fade-up" data-aos-delay="150">Industrial Waste Exchange Platform</p>
+      <p class="description" data-aos="fade-up" data-aos-delay="300">Connecting industries to reduce waste and build a circular economy</p>
+      <button class="cta-button" data-aos="zoom-in" data-aos-delay="450">Get Started</button>
+    </div>
+  </section>
+
+  <section id="concept" class="concept">
+    <div class="container">
+      <h2 data-aos="fade-down">💡 The Concept</h2>
+      <p data-aos="fade-right">SmartWaste Network is a marketplace where industries can post or request waste materials such as metal scrap, used oils, packaging etc.</p>
+      <p data-aos="fade-left">This creates a circular economy where waste becomes a resource for another industry.</p>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2 data-aos="zoom-in">Services We Provide</h2>
+      <div class="features-grid">
+        <div class="feature-card" data-aos="fade-up"><div class="icon">📦</div><h3>Post Your Waste</h3><p>List your waste for reuse.</p></div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="150"><div class="icon">🔍</div><h3>Request Materials</h3><p>Request specific materials.</p></div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300"><div class="icon">🗺</div><h3>Map-Based Discovery</h3><p>Find material locally.</p></div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="450"><div class="icon">📊</div><h3>Live Waste Statistics</h3><p>Track listings & requests.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POST WASTE -->
+  <section id="post-waste" class="post-waste-section">
+    <div class="container">
+      <h2>📦 List Your Waste Material</h2>
+      <form id="wasteForm" class="waste-form">
+        <label>Material Name</label><input type="text" name="name" required/>
+        <label>Category</label>
+        <select name="type" required><option disabled selected>Select Category</option><option>Metal</option><option>Oil</option><option>Plastic</option><option>Chemical</option><option>Other</option></select>
+        <label>Quantity</label><input type="text" name="quantity" required/>
+        <label>Pickup Location</label>
+        <div class="location-box">
+          <input type="text" id="location" name="location" placeholder="City, Area, or Postal Code" readonly />
+          <button type="button" id="detectLocationBtn">📍 Use My Location</button>
+        </div>
+        <input type="hidden" id="lat" name="lat" />
+        <input type="hidden" id="lng" name="lng" />
+        <label>Description</label><textarea name="description" required></textarea>
+        <button type="submit">Post Waste</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- REQUEST -->
+  <section id="request-material" class="request-material-section">
+    <div class="container">
+      <h2>🔍 Request Specific Materials</h2>
+      <form id="requestForm" class="request-form">
+        <label>Select Materials Needed</label>
+        <div class="materials-checkboxes">
+          <label><input type="checkbox" name="materials" value="Steel Scrap"> Steel Scrap</label>
+          <label><input type="checkbox" name="materials" value="Plastic Pellets"> Plastic Pellets</label>
+          <label><input type="checkbox" name="materials" value="Used Oil"> Used Oil</label>
+          <label><input type="checkbox" name="materials" value="Cardboard"> Cardboard</label>
+          <label><input type="checkbox" name="materials" value="Copper Wire"> Copper Wire</label>
+          <label><input type="checkbox" name="materials" value="Other"> Other</label>
+        </div>
+
+        <label>Category</label>
+        <select name="category" required><option disabled selected>Select Category</option><option>Metal</option><option>Oil</option><option>Plastic</option><option>Chemical</option><option>Other</option></select>
+        <label>Required Quantity</label><input type="text" name="requiredQuantity" required/>
+        <label>Use Case</label><textarea name="useCase" required></textarea>
+        <label>Your Contact</label><input type="text" name="contact"/>
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map-discovery" class="map-discovery-section">
+    <div class="container">
+      <h2>🗺 Bangalore Waste Map</h2>
+      <div class="map-controls">
+        <input id="searchMarker" placeholder="Search material name..."/>
+        <select id="categoryFilter"><option value="all">All</option><option value="Metal">Metal</option><option value="Oil">Oil</option><option value="Plastic">Plastic</option><option value="Chemical">Chemical</option><option value="Other">Other</option></select>
+      </div>
+      <div id="map" style="height:520px;border-radius:12px;margin-top:15px;"></div>
+    </div>
+  </section>
+
+  <!-- LIVE STATS -->
+  <section id="live-stats" class="live-stats-section">
+    <div class="container">
+      <h2>📊 Live Waste Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-card clickable" id="card-waste"><h3 id="stat-waste">—</h3><p>Waste Listings</p></div>
+        <div class="stat-card clickable" id="card-requests"><h3 id="stat-requests">—</h3><p>Material Requests</p></div>
+        <div class="stat-card clickable" id="card-services"><h3 id="stat-services">—</h3><p>Services</p></div>
+      </div>
+
+      <!-- DETAILED LIST PANEL -->
+      <div id="detailed-panel" class="detailed-panel hidden">
+        <div class="panel-header">
+          <h3 id="panel-title">Details</h3>
+          <button id="panel-close">✖</button>
+        </div>
+        <div id="nav-instructions" class="nav-instructions">
+          <strong>How to navigate:</strong>
+          <ol>
+            <li>Click "Navigate" on a listing (or marker). The app will try to get your current location.</li>
+            <li>If permitted, Google Maps will open with directions from your location to the waste location.</li>
+            <li>Choose mode (Driving/Walking) and tap Start in Google Maps for step-by-step guidance.</li>
+          </ol>
+        </div>
+        <div id="panel-content" class="panel-content"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>📧 Request a Demo</h2>
+      <form id="contactForm" class="contact-form">
+        <input type="text" name="company" placeholder="Company Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="tel" name="phone" placeholder="Phone Number">
+        <textarea name="message" placeholder="Tell us about your needs" rows="4" required></textarea>
+        <button type="submit">Request Demo</button>
+      </form>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2025 SmartWaste Network • Circular Economy Platform 🌱</p></footer>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Main Script -->
+  <script src="script.js"></script>.

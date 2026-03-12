@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>User Login — SmartWaste</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+  <div class="center-wrap">
+    <div class="card">
+      <div class="brand">
+        <img src="logo.png" alt="logo"/>
+        <div>
+          <h1>SmartWaste — User</h1>
+          <p>Sign in to post and manage your listings</p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <input id="user-email" class="input" placeholder="email" value="user@example.com"/>
+        <input id="user-pass" type="password" class="input" placeholder="password" value="user123"/>
+      </div>
+
+      <button id="user-login-btn" class="btn">Sign in</button>
+
+      <div class="link"><a href="admin-login.html">Admin login</a></div>
+
+      <div id="user-msg" class="small"></div>
+    </div>
+  </div>
+
+
+  <!-- MAIN LOGIN JS (contains doLogin()) → MUST BE BEFORE YOUR INLINE SCRIPT -->
+  <script src="login.js"></script>
+
+  <!-- PAGE-SPECIFIC CODE -->
+  <script>
+    document.getElementById('user-login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('user-email').value;
+      const pw = document.getElementById('user-pass').value;
+
+      try {
+        const data = await doLogin('/api/auth/login', email, pw);
+
+        if (data.user.role !== 'user') {
+          document.getElementById('user-msg').textContent = 'Not a user account';
+          return;
+        }
+
+        window.location.href = 'user-dashboard.html';
+
+      } catch (err) {
+        document.getElementById('user-msg').textContent =
+          (err && err.error) ? err.error : 'Login failed';
+      }
+    });
+  </script>
+
+</body>
+</html>

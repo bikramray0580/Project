@@ -1,0 +1,142 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1'/>
+  <title>Admin Dashboard — SmartWaste</title>
+  <link rel='stylesheet' href='auth.css'>
+</head>
+<body>
+  <div style='max-width:1200px;margin:18px auto;padding:12px;'>
+    <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:14px'>
+      <div style='display:flex;gap:12px;align-items:center'>
+        <img src='sandbox:/mnt/data/0cd98ac9-3680-4a1c-b14e-18c7889d2eda.png' style='width:56px;height:56px;border-radius:10px'>
+        <div><h2 style='margin:0'>SmartWaste Admin</h2><small id='admin-email-display' class='small-muted'></small></div>
+      </div>
+      <div>
+        <button id='logoutBtn' class='action-btn'>Log out</button>
+      </div>
+    </div>
+
+    <div class='dashboard'>
+      <div class='left-col'>
+        <div class='card-sm'>
+          <div class='h-card'>
+            <h3>Overview</h3>
+            <div class='stat-number' id='total-waste'>—</div>
+          </div>
+          <p class='small-muted'>Quick overview of total listings</p>
+        </div>
+
+        <div class='card-sm'>
+          <h3>Waste Listings</h3>
+          <div id='waste-list'></div>
+        </div>
+      </div>
+
+      <div class='right-col'>
+        <div class='card-sm'>
+          <h3>Material Requests</h3>
+          <div id='request-list'></div>
+        </div>
+
+        <div class='card-sm'>
+          <h3>Users</h3>
+          <div id='users-list'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const role = localStorage.getItem('role');
+      if (!role || role !== 'admin') {
+        alert('Admin access only');
+        window.location.href = 'admin-login.html';
+      }
+      document.getElementById('admin-email-display').textContent = localStorage.getItem('userEmail') || '';
+    })();
+  </script>
+
+  <script>
+    const API_BASE='/api';
+    const token = localStorage.getItem('token');
+
+    document.getElementById('logoutBtn').addEventListener('click', ()=>{ localStorage.clear(); window.location.href='admin-login.html'; });
+
+    async function fetchJSON(path, opts={}) {
+      opts.headers = Object.assign(opts.headers || {}, { 'Content-Type':'application/json', 'Authorization': 'Bearer ' + token });
+      const res = await fetch(API_BASE + path, opts);
+      if (!res.ok) throw await res.json().catch(()=>({error:'fetch failed'}));
+      return res.json();
+    }
+
+    async function loadAll() {
+      try {
+        const [wastesReq, reqsReq, usersReq] = await Promise.all([
+          fetchJSON('/waste'),
+          fetchJSON('/request'),
+          fetchJSON('/auth/users').catch(()=>({ ok:false })) // optional
+        ]);
+
+        const wastes = Array.isArray(wastesReq) ? wastesReq : (wastesReq.wastes || []);
+        document.getElementById('total-waste').textContent = wastes.length;
+
+        document.getElementById('waste-list').innerHTML = wastes.map(w => 
+          <div class='list-item'>
+            <div class='item-left'>
+              <strong></strong><div class='small-muted'> • </div>
+              <div class='small'></div>
+            </div>
+            <div class='item-right'>
+              <button class='action-btn' onclick='deleteWaste()'>Delete</button>
+            </div>
+          </div>
+        ).join('') || '<p class=\"small-muted\">No listings</p>';
+
+        const reqs = (reqsReq && reqsReq.requests) || (Array.isArray(reqsReq) ? reqsReq : []);
+        document.getElementById('request-list').innerHTML = (reqs.length ? reqs.map(r=>
+          <div class='list-item'><div class='item-left'><strong></strong><div class='small-muted'> • </div></div>
+          <div class='item-right'><button class='action-btn' onclick='deleteRequest()'>Delete</button></div></div>
+        ).join('') : '<p class=\"small-muted\">No requests</p>');
+
+        if (usersReq && usersReq.users) {
+          document.getElementById('users-list').innerHTML = usersReq.users.map(u=><div class='list-item'><div class='item-left'><strong></strong><div class='small-muted'></div></div><div class='item-right'><button class='action-btn' onclick='deleteUser()'>Delete</button></div></div>).join('');
+        } else {
+          document.getElementById('users-list').innerHTML = '<p class=\"small-muted\">Users API not present</p>';
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert('Failed to load admin data. Check console.');
+      }
+    }
+
+    async function deleteWaste(id) {
+      if (!confirm('Delete this waste?')) return;
+      try {
+        await fetchJSON(/waste/, { method: 'DELETE' });
+        await loadAll();
+      } catch (e) { alert('Delete failed'); console.error(e); }
+    }
+
+    async function deleteRequest(id) {
+      if (!confirm('Delete this request?')) return;
+      try {
+        await fetchJSON(/request/, { method: 'DELETE' }).catch(()=>{});
+        await loadAll();
+      } catch (e) { alert('Delete failed'); console.error(e); }
+    }
+
+    async function deleteUser(id) {
+      if (!confirm('Delete user?')) return;
+      try {
+        await fetchJSON(/auth/users/, { method: 'DELETE' }).catch(()=>{});
+        await loadAll();
+      } catch (e) { alert('Delete user failed',e); }
+    }
+
+    loadAll();
+  </script>
+</body>
+</html>

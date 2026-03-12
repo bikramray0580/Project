@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartWaste Network - Industrial Waste Exchange</title>
+
+    <!-- main site css -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Leaflet (Map library) -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+</head>
+<body>
+
+<nav>
+  <div class="nav-container container">
+    <h1 class="logo">🌍 SmartWaste Network</h1>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+
+    <!-- Navigation Links -->
+    <ul class="nav-links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#concept">Concept</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#map-discovery">Map</a></li>
+        <li><a href="#waste-stats">Stats</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#login" id="nav-login-link">Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+    <!-- GLASSMORPHISM LOGIN MODAL -->
+    <section id="login" class="gl-login-section" aria-labelledby="gl-heading" role="dialog" aria-modal="true" tabindex="-1">
+      <!-- backdrop -->
+      <div class="gl-backdrop" data-close="backdrop"></div>
+
+      <div class="gl-login-wrap" role="document">
+        <div class="gl-card" data-aos="zoom-in" data-aos-once="true" onclick="event.stopPropagation()">
+          <header class="gl-card-head">
+            <h1 id="gl-heading">greenlink</h1>
+            <p class="gl-sub">smartwaste network · industry login</p>
+          </header>
+
+          <form id="glLoginForm" class="gl-form" autocomplete="on" novalidate>
+            <label class="gl-input-group">
+              <span>industry id / email</span>
+              <input id="gl-user" name="user" type="text" placeholder="factory@green.com or factory-id" required />
+            </label>
+
+            <label class="gl-input-group">
+              <span>password</span>
+              <div class="gl-password-row">
+                <input id="gl-pass" name="pass" type="password" placeholder="••••••••" required />
+                <button type="button" id="gl-togglePass" class="gl-toggle" aria-label="toggle password">show</button>
+              </div>
+            </label>
+
+            <div class="gl-row gl-row-between">
+              <label class="gl-checkbox">
+                <input id="gl-remember" type="checkbox" />
+                <span>remember me</span>
+              </label>
+              <button type="button" class="gl-small gl-link-close" aria-label="forgot">forgot?</button>
+            </div>
+
+            <button type="submit" class="gl-btn gl-primary">sign in</button>
+
+            <div class="gl-or">or</div>
+
+            <div class="gl-alt">
+              <button type="button" id="glDemo" class="gl-btn gl-ghost">demo login</button>
+              <a href="register.html" class="gl-small">create industry profile</a>
+            </div>
+
+            <p id="gl-message" class="gl-message" aria-live="polite"></p>
+          </form>
+
+          <button class="gl-close" id="glCloseBtn" aria-label="close login">✕</button>
+        </div>
+      </div>
+    </section>
+    <!-- end login modal -->
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 data-aos="zoom-in" data-aos-duration="1000">SmartWaste Network</h1>
+            <p class="tagline" data-aos="fade-up" data-aos-delay="200">Industrial Waste Exchange Platform</p>
+            <p class="description" data-aos="fade-up" data-aos-delay="400">Connecting industries to reduce waste and create a circular economy</p>
+            <button class="cta-button" data-aos="flip-up" data-aos-delay="600" id="get-started">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section id="concept" class="concept">
+        <div class="container">
+            <h2 data-aos="fade-down" data-aos-duration="800">💡 The Concept</h2>
+            <p data-aos="fade-right" data-aos-delay="100">SmartWaste Network is a <strong>virtual marketplace</strong> where industries can post waste materials (metal scraps, used oils, packaging materials, etc.) that other industries can reuse.</p>
+            <p data-aos="fade-left" data-aos-delay="300">By connecting waste producers with waste users, we transform industrial waste into valuable resources, reducing landfill waste and saving costs for businesses.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 data-aos="zoom-in" data-aos-duration="800">Services We Provide</h2>
+            <div class="features-grid">
+                
+                <!-- Feature Card 1 -->
+                <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-target="post-waste">
+                    <div class="icon" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">📦</div>
+                    <h3>Post Your Waste</h3>
+                    <p data-aos="fade-up" data-aos-delay="300">Industries can list available waste materials like metal scraps, used oils, packaging, and more for others to reuse.</p>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" data-target="request-material">
+                    <div class="icon" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="300">🔍</div>
+                    <h3>Request Materials</h3>
+                    <p data-aos="fade-up" data-aos-delay="400">Search and request specific waste materials you need for your manufacturing process.</p>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200" data-target="map-discovery">
+                    <div class="icon" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="400">🗺</div>
+                    <h3>Map-Based Discovery</h3>
+                    <p data-aos="fade-up" data-aos-delay="500">Find available materials nearby using our interactive map interface.</p>
+                </div>
+
+                <!-- Feature Card 4 -->
+                <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300" data-target="waste-stats">
+                    <div class="icon" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="500">📊</div>
+                    <h3>Live Waste Statistics</h3>
+                    <p data-aos="fade-up" data-aos-delay="600">Track total waste reused and your environmental impact in real-time.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+   
+
+
+
+    <!-- Rewards Section -->
+    <section id="rewards" class="rewards">
+        <div class="container">
+            <h2 data-aos="fade-up" data-aos-duration="800">🏆 Reward System</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Companies and students earn <strong>"EcoTrade Points"</strong> for each successful waste exchange transaction.</p>
+            
+            <div class="rewards-content">
+                <div class="rewards-left" data-aos="slide-right" data-aos-delay="200">
+                    <h3>How It Works:</h3>
+                    <ul>
+                        <li data-aos="fade-right" data-aos-delay="300">✅ Earn points for every successful waste transaction</li>
+                        <li data-aos="fade-right" data-aos-delay="400">📊 Points displayed on a public leaderboard</li>
+                        <li data-aos="fade-right" data-aos-delay="500">🌟 Reach "Net Zero Trader" status after reusing a certain tonnage</li>
+                        <li data-aos="fade-right" data-aos-delay="600">🏅 Compete with other companies for top sustainability rankings</li>
+                    </ul>
+                </div>
+                
+                <div class="rewards-right" data-aos="slide-left" data-aos-delay="200">
+                    <h3>Leaderboard Preview</h3>
+                    <div class="leaderboard-placeholder">
+                        <p data-aos="zoom-in" data-aos-delay="700">🥇 Top Trader: 2,540 points</p>
+                        <p data-aos="zoom-in" data-aos-delay="800">🥈 Second Place: 1,890 points</p>
+                        <p data-aos="zoom-in" data-aos-delay="900">🥉 Third Place: 1,650 points</p>
+                        <p data-aos="fade-up" data-aos-delay="1000"><em>(Live data coming soon!)</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 data-aos="fade-down" data-aos-duration="800">📧 Request a Demo</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Interested in joining SmartWaste Network? Contact us!</p>
+            
+            <form id="contactForm" class="contact-form" data-aos="zoom-in" data-aos-delay="200">
+                <input type="text" name="company" placeholder="Company Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="tel" name="phone" placeholder="Phone Number">
+                <textarea name="message" placeholder="Tell us about your waste management needs" rows="5" required></textarea>
+                <button type="submit">Request Demo</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-duration="250">
+        <p>&copy; 2025 SmartWaste Network | Industrial Waste Exchange Platform</p>
+        <p>Building a sustainable future through circular economy 🌱</p>
+    </footer>
+
+    <!-- main script -->
+    <script src="script.js"></script>
+
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            mirror: false,
+            offset: 100,
+            delay: 0,
+        });
+    </script>
+</body>
+</html>

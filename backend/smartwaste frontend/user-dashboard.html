@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>User Dashboard – SmartWaste Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body data-protected="true" data-role="user">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-container container">
+      <h1 class="logo">👤 User · SmartWaste</h1>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#features">Services</a></li>
+        <li><a href="#post-waste">Post Waste</a></li>
+        <li><a href="#request-material">Request Material</a></li>
+        <li><a href="#map-block">Map</a></li>
+        <li><a href="#stats-block">Stats</a></li>
+        <li><a href="javascript:void(0)" id="nav-logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Intro -->
+  <section class="concept">
+    <div class="container">
+      <h2>Welcome to Your SmartWaste Dashboard</h2>
+      <p>Turn your waste into opportunity — post materials, request resources, explore nearby exchanges, and track your environmental impact.</p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2>Services We Provide</h2>
+
+      <div class="features-grid">
+        <div class="feature-card" data-target="post-waste">
+          <div class="icon">📦</div>
+          <h3>Post Your Waste</h3>
+        </div>
+
+        <div class="feature-card" data-target="request-material">
+          <div class="icon">🔍</div>
+          <h3>Request Materials</h3>
+        </div>
+
+        <div class="feature-card" data-target="map-block">
+          <div class="icon">🗺</div>
+          <h3>Map-Based Discovery</h3>
+        </div>
+
+        <div class="feature-card" data-target="stats-block">
+          <div class="icon">📊</div>
+          <h3>Live Waste Statistics</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POST WASTE -->
+  <section id="post-waste" class="post-waste-section" style="display:none;">
+  <div class="container">
+    <h2>📦 List Your Waste Material</h2>
+
+    <form id="wasteForm" class="waste-form">
+
+      <label>Material Name:</label>
+      <input type="text" name="name" required placeholder="Material Name">
+
+      <label>Material Category:</label>
+      <select name="type" required>
+        <option value="" disabled selected>Select Category</option>
+        <option value="Metal">Metal Scraps</option>
+        <option value="Oil">Used Oils</option>
+        <option value="Plastic">Plastic</option>
+        <option value="Chemical">Chemical</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Quantity:</label>
+      <input type="text" name="quantity" required placeholder="e.g., 200 kg">
+
+      <label>Pickup Location:</label>
+      <input type="text" id="location" name="location" required>
+
+      <p id="geo-status" style="font-size:14px;color:#777;">Click the button to detect your location.</p>
+
+      <button type="button" id="detectLocationBtn" class="cta-button" style="margin-bottom:15px;">
+        Detect My Location 📍
+      </button>
+
+      <input type="hidden" id="lat" name="lat">
+      <input type="hidden" id="lng" name="lng">
+
+      <label>Description:</label>
+      <textarea name="description" required></textarea>
+
+      <p id="waste-msg" class="small"></p>
+
+      <button type="submit" class="cta-button">Post Listing</button>
+    </form>
+  </div>
+</section>
+
+
+  <section id="request-material" class="request-material-section" style="display:none;">
+  <div class="container">
+    <h2>🔍 Request Materials</h2>
+
+    <form id="requestForm" class="request-form">
+
+      <label>Material Needed:</label>
+      <input type="text" name="material" required>
+
+      <label>Category:</label>
+      <select name="category" required>
+        <option disabled selected>Select Category</option>
+        <option>Metal</option>
+        <option>Oil</option>
+        <option>Plastic</option>
+        <option>Chemical</option>
+        <option>Other</option>
+      </select>
+
+      <label>Required Quantity:</label>
+      <input type="text" name="requiredQuantity" required>
+
+      <label>Optional Items:</label>
+      <label><input type="checkbox" name="items" value="Steel Scrap"> Steel Scrap</label><br>
+      <label><input type="checkbox" name="items" value="Used Oil"> Used Oil</label><br>
+      <label><input type="checkbox" name="items" value="Plastic Pellets"> Plastic Pellets</label>
+
+      <label>Your Use Case:</label>
+      <textarea name="useCase" required></textarea>
+
+      <p id="request-msg" class="small"></p>
+
+      <button type="submit" class="cta-button">Submit Request</button>
+    </form>
+  </div>
+</section>
+
+  <!-- MAP -->
+  <section id="map-block">
+    <h2>🗺 Waste Map</h2>
+    <div id="map" style="height:350px;"></div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats-block">
+    <h2>📊 Waste Statistics</h2>
+    <div id="stats-summary"></div>
+    <div id="stats-list"></div>
+  </section>
+
+  <script src="script.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+/* Global Variables */
+:root {
+    --color-primary: #008060; /* Deep, professional Eco-Green */
+    --color-secondary: #2C3A47; /* Dark Charcoal/Slate */
+    --color-light: #F7F7F7; /* Soft Off-White Background */
+    --color-white: #FFFFFF;
+    --color-text: #444;
+}
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-light);
+    transition: background-color 0.3s;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- NAVIGATION (Sticky Header) --- */
+nav {
+    background: var(--color-secondary);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: background-color 0.3s;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--color-primary);
+}
+
+/* --- HERO SECTION (High Impact) --- */
+.hero {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #1a4f3d 100%);
+    color: var(--color-white);
+    text-align: center;
+    padding: 150px 20px;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.tagline {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-button {
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 128, 96, 0.4);
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+.cta-button:hover {
+    background: #006b51;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 128, 96, 0.6);
+}
+
+/* --- CONCEPT SECTION --- */
+.concept {
+    padding: 80px 20px;
+    background: var(--color-white);
+}
+
+.concept h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--color-secondary);
+}
+
+.concept p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0.5rem auto;
+    line-height: 1.8;
+}
+
+/* --- FEATURES SECTION (Card Animation) --- */
+.features {
+    padding: 80px 20px;
+    background: var(--color-light);
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: var(--color-secondary);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: var(--color-white);
+    padding: 2.5rem 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    
+    /* 1. ENABLE 3D SPACE FOR FLIP */
+    perspective: 1000px; 
+    transform-style: preserve-3d;
+    
+    /* Smooth Lift and Shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.02); /* Significant lift */
+    box-shadow: 0 20px 40px rgba(0, 128, 96, 0.25); /* Green-tinted shadow */
+}
+
+.feature-card .icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+    
+    /* 2. ICON FLIP SETUP */
+    transition: transform 0.8s; /* Longer transition for a noticeable flip */
+}
+
+.feature-card:hover .icon {
+    transform: rotateY(180deg); /* The actual flip effect */
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-secondary);
+}
+
+
+/* --- REWARDS SECTION --- */
+.rewards {
+    padding: 80px 20px;
+    background: var(--color-secondary);
+    color: var(--color-white);
+}
+
+.rewards h2 {
+    color: var(--color-primary); /* Use primary as contrast on dark background */
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.rewards-left li {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    padding-left: 15px;
+    border-left: 4px solid var(--color-primary);
+    transition: border-color 0.3s;
+}
+
+.leaderboard-placeholder {
+    background: rgba(255,255,255,0.08); /* Semi-transparent */
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+
+/* --- FORM SECTIONS (Contact, Post Waste, Request Material) --- */
+
+.contact, .post-waste-section, .request-material-section {
+    padding: 80px 20px;
+    background: var(--color-white);
+}
+
+.contact h2, .post-waste-section h2, .request-material-section h2 {
+    color: var(--color-secondary);
+    text-align: center;
+}
+
+/* ---------------------------------------------------- */
+/* --- CORE TOGGLE AND ANIMATION LOGIC --- */
+/* ---------------------------------------------------- */
+
+.post-waste-section, .request-material-section {
+    /* 1. HIDE BY DEFAULT */
+    display: none; 
+    
+    /* 2. Setup Initial Animation State (Opacity and Start Position) */
+    opacity: 0;
+    transform: translateY(30px);
+    
+    /* 3. Ensure Smooth Transition when JS applies the 'is-visible' class */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.post-waste-section.is-visible, 
+.request-material-section.is-visible {
+    /* 4. When JS applies this class, make it visible and slide it up */
+    display: block; /* MUST change from none to block */
+    opacity: 1;
+    transform: translateY(0);
+    padding-top: 80px; /* Restore padding when visible */
+    padding-bottom: 80px;
+}
+
+/* ---------------------------------------------------- */
+
+
+.contact-form, .waste-form, .request-form {
+    max-width: 600px;
+    margin: 30px auto 0;
+    padding: 30px;
+    background: var(--color-light);
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form input,
+.contact-form textarea,
+.waste-form input,
+.waste-form select,
+.waste-form textarea,
+.request-form input,
+.request-form select,
+.request-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.waste-form input:focus,
+.request-form input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 128, 96, 0.2);
+    outline: none;
+}
+
+.contact-form button,
+.waste-form button,
+.request-form button {
+    width: 100%;
+    padding: 15px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.contact-form button:hover,
+.waste-form button:hover,
+.request-form button:hover {
+    background: #006b51;
+    transform: translateY(-2px);
+}
+
+
+/* --- FOOTER --- */
+footer {
+    background: var(--color-secondary);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 2rem 20px;
+    font-size: 0.9rem;
+    border-top: 5px solid var(--color-primary);
+}
+
+
+/* --- ANIMATIONS & RESPONSIVE DESIGN (Kept from previous) --- */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+    
+    .features-grid, .rewards-content {
+        grid-template-columns: 1fr;
+    }
+    .nav-links {
+        display: none; /* Hide for true mobile */
+    }
+    .nav-container {
+        justify-content: center;
+    }
+}

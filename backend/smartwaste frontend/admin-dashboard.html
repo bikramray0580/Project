@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard – SmartWaste Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <style>
+    /* --- Admin Table Styles (merged from admin-control.html) --- */
+
+    .admin-wrap { max-width: 1100px; margin: 32px auto; padding: 16px; }
+
+    .row { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+    .search { flex:1; }
+
+    .card { background:#fff; border-radius:8px; padding:16px; 
+            box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-bottom:22px;}
+
+    table { width:100%; border-collapse:collapse; }
+    th,td { padding:8px; border-bottom:1px solid #eee; text-align:left; font-size:14px; }
+    .btn { padding:8px 10px; border-radius:6px; cursor:pointer; border:none;}
+    .btn-danger{ background:#ff4d4f; color:#fff; }
+    .btn-edit{ background:#1890ff; color:#fff; }
+    .btn-ghost{ background:transparent; border:1px solid #ccc; }
+    .small { font-size:13px; color:#666; }
+
+    .modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.4); }
+    .modal.show { display:flex; }
+    .modal-card { background:#fff; padding:18px; border-radius:8px; width:720px; max-width:95%; }
+
+    label { display:block; margin-top:8px; }
+    input[type="text"], textarea, select { 
+      width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; 
+    }
+
+    .flex-between { display:flex; justify-content:space-between; align-items:center; }
+
+    .history-list { max-height:320px; overflow:auto; }
+
+  </style>
+</head>
+
+<body data-protected="true" data-role="admin">
+
+  <nav>
+    <div class="nav-container container">
+      <h1 class="logo">🛠 Admin · SmartWaste</h1>
+      <ul class="nav-links">
+        <li><a href="#admin-panel">Admin Control</a></li>
+        <li><a href="#map-block">Map</a></li>
+        <li><a href="#stats-block">Stats</a></li>
+        <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Overview -->
+  <section class="concept">
+    <div class="container">
+      <h2>Admin Dashboard</h2>
+      <p>
+        Welcome, Admin. Manage all waste, requests, and view map/statistics.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!--   ADMIN CONTROL PANEL BLOCK   -->
+  <!-- ============================= -->
+  <section id="admin-panel">
+    <div class="admin-wrap">
+
+      <div class="row">
+        <h2>Admin Control Panel</h2>
+        <div style="margin-left:auto">
+          <button id="refreshBtn" class="btn btn-ghost">Refresh</button>
+          <button id="showHistoryBtn" class="btn btn-ghost">History</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <input id="searchInput" class="search" placeholder="Search waste / requests..." />
+          <select id="typeSelect">
+            <option value="waste">Waste</option>
+            <option value="request">Request</option>
+          </select>
+          <button id="searchBtn" class="btn btn-ghost">Search</button>
+        </div>
+
+        <div id="listContainer"></div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="editModal" class="modal" role="dialog" aria-hidden="true">
+        <div class="modal-card">
+          <div class="flex-between">
+            <h3 id="modalTitle">Edit Item</h3>
+            <button id="closeModal" class="btn btn-ghost">Close</button>
+          </div>
+
+          <form id="editForm">
+            <input type="hidden" id="editType" />
+            <input type="hidden" id="editId" />
+
+            <label>Title <input id="editTitle" type="text" required /></label>
+            <label>Material <input id="editMaterial" type="text" /></label>
+            <label>Description <textarea id="editDesc" rows="4"></textarea></label>
+            <label>Quantity <input id="editQty" type="text" /></label>
+            <label>Location <input id="editLocation" type="text" /></label>
+            <label>Approved
+              <select id="editApproved">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </label>
+
+            <div style="margin-top:12px; display:flex; gap:10px;">
+              <button type="submit" class="btn btn-edit">Save</button>
+              <button type="button" id="deleteBtn" class="btn btn-danger">Delete</button>
+              <button type="button" id="approveToggle" class="btn btn-ghost">Toggle Approve</button>
+            </div>
+
+            <p id="editMsg" class="small"></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- History Modal -->
+      <div id="historyModal" class="modal">
+        <div class="modal-card">
+          <div class="flex-between">
+            <h3>Admin History</h3>
+            <button id="closeHistory" class="btn btn-ghost">Close</button>
+          </div>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="map-block" class="map-section">
+    <div class="container">
+      <h2>🗺 Global Waste Map</h2>
+      <p>All waste postings appear below on the map.</p>
+
+      <div id="map" class="map-container"></div>
+      <div id="map-list" class="map-list"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats-block" class="stats-section">
+    <div class="container">
+      <h2>📊 Waste Statistics</h2>
+      <p>Summary of all waste listings.</p>
+
+      <div id="stats-summary" class="stats-summary"></div>
+      <div id="stats-list" class="stats-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Admin Dashboard · SmartWaste Network</p>
+  </footer>
+
+  <!-- your main map/stats script -->
+  <script src="script.js"></script>
+
+  <!-- admin panel JS (merged) -->
+  <script src="admin.js"></script>
+
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+</body>
+</html>

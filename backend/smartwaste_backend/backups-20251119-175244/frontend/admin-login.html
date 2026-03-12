@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/>
+  <meta name='viewport' content='width=device-width,initial-scale=1'/>
+  <title>Admin Login — SmartWaste</title>
+  <link rel='stylesheet' href='auth.css'>
+</head>
+<body>
+
+  <div class='center-wrap'>
+    <div class='card'>
+      <h1>SmartWaste — Admin Login</h1>
+
+      <input id='admin-email' class='input' placeholder='Email' value='admin@example.com'>
+      <input id='admin-pass' class='input' type='password' placeholder='Password' value='admin123'>
+
+      <button id='admin-login-btn' class='btn'>Sign in</button>
+
+      <div class='link'><a href='user-login.html'>User login</a></div>
+      <div id='admin-msg' class='small'></div>
+    </div>
+  </div>
+
+  <script src='login.js'></script>
+
+  <script>
+    document.getElementById('admin-login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('admin-email').value;
+      const pw = document.getElementById('admin-pass').value;
+
+      try {
+        const data = await doLogin('/api/auth/login', email, pw);
+
+        if (data.user.role !== 'admin') {
+          document.getElementById('admin-msg').textContent = 'Not an admin account!';
+          return;
+        }
+
+        window.location.href = 'admin-dashboard.html';
+      } catch (err) {
+        document.getElementById('admin-msg').textContent =
+          (err && err.msg) ? err.msg : 'Invalid credentials';
+      }
+    });
+  </script>
+
+</body>
+</html>

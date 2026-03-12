@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartWaste Network - Industrial Waste Exchange</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container container">
+            <h1 class="logo">🌍 SmartWaste Network</h1>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#concept">Concept</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#rewards">Rewards</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 data-aos="zoom-in" data-aos-duration="1000">SmartWaste Network</h1>
+            <p class="tagline" data-aos="fade-up" data-aos-delay="200">Industrial Waste Exchange Platform</p>
+            <p class="description" data-aos="fade-up" data-aos-delay="400">Connecting industries to reduce waste and create a circular economy</p>
+            <button class="cta-button" data-aos="flip-up" data-aos-delay="600">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section id="concept" class="concept">
+        <div class="container">
+            <h2 data-aos="fade-down" data-aos-duration="800">💡 The Concept</h2>
+            <p data-aos="fade-right" data-aos-delay="100">SmartWaste Network is a <strong>virtual marketplace</strong> where industries can post waste materials (metal scraps, used oils, packaging materials, etc.) that other industries can reuse.</p>
+            <p data-aos="fade-left" data-aos-delay="300">By connecting waste producers with waste users, we transform industrial waste into valuable resources, reducing landfill waste and saving costs for businesses.</p>
+        </div>
+    </section>
+
+    <!-- Features Section (The four visual cards) -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 data-aos="zoom-in" data-aos-duration="800">Services We Provide</h2>
+            <div class="features-grid">
+                
+                <!-- Feature Card 1: Post Your Waste - Advanced Entrance -->
+                <div class="feature-card" 
+                     data-aos="fade-up"               
+                     data-aos-duration="800" 
+                     data-aos-anchor-placement="top-bottom"
+                     data-aos-offset="50">
+                    <div class="icon" 
+                         data-aos="zoom-in" 
+                         data-aos-duration="1500" 
+                         data-aos-easing="ease-out-back"
+                         data-aos-delay="200">📦</div>
+                    <h3>Post Your Waste</h3>
+                    <p data-aos="fade-up" data-aos-delay="300">Industries can list available waste materials like metal scraps, used oils, packaging, and more for others to reuse.</p>
+                </div>
+
+                <!-- Feature Card 2: Request Materials - Advanced Entrance -->
+                <div class="feature-card" 
+                     data-aos="fade-up" 
+                     data-aos-duration="800" 
+                     data-aos-delay="100"
+                     data-aos-anchor-placement="top-bottom"
+                     data-aos-offset="50">
+                    <div class="icon" 
+                         data-aos="zoom-in" 
+                         data-aos-duration="1500" 
+                         data-aos-easing="ease-out-back"
+                         data-aos-delay="300">🔍</div>
+                    <h3>Request Materials</h3>
+                    <p data-aos="fade-up" data-aos-delay="400">Search and request specific waste materials you need for your manufacturing process.</p>
+                </div>
+
+                <!-- Feature Card 3: Map-Based Discovery - Advanced Entrance -->
+                <div class="feature-card" 
+                     data-aos="fade-up" 
+                     data-aos-duration="800" 
+                     data-aos-delay="200"
+                     data-aos-anchor-placement="top-bottom"
+                     data-aos-offset="50">
+                    <div class="icon" 
+                         data-aos="zoom-in" 
+                         data-aos-duration="1500" 
+                         data-aos-easing="ease-out-back"
+                         data-aos-delay="400">🗺</div>
+                    <h3>Map-Based Discovery</h3>
+                    <p data-aos="fade-up" data-aos-delay="500">Find available materials nearby using our interactive map interface.</p>
+                </div>
+
+                <!-- Feature Card 4: Live Waste Statistics - Advanced Entrance -->
+                <div class="feature-card" 
+                     data-aos="fade-up" 
+                     data-aos-duration="800" 
+                     data-aos-delay="300"
+                     data-aos-anchor-placement="top-bottom"
+                     data-aos-offset="50">
+                    <div class="icon" 
+                         data-aos="zoom-in" 
+                         data-aos-duration="1500" 
+                         data-aos-easing="ease-out-back"
+                         data-aos-delay="500">📊</div>
+                    <h3>Live Waste Statistics</h3>
+                    <p data-aos="fade-up" data-aos-delay="600">Track total waste reused and your environmental impact in real-time.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Post Waste Section (The actual Form) - Initially Hidden by CSS -->
+    <section id="post-waste" class="post-waste-section">
+        <div class="container">
+            <h2 data-aos="fade-down">📦 List Your Waste Material</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Help create a circular economy by listing your industrial waste for reuse.</p>
+            
+            <form id="wasteForm" class="waste-form">
+                <label for="wasteName">Material Name (e.g., Scrap Aluminum, Used Hydraulic Oil):</label>
+                <input type="text" id="wasteName" name="name" required placeholder="Material Name">
+
+                <label for="wasteType">Material Category:</label>
+                <select id="wasteType" name="type" required>
+                    <option value="" disabled selected>Select a Category</option>
+                    <option value="Metal">Metal Scraps</option>
+                    <option value="Oil">Used Oils/Lubricants</option>
+                    <option value="Plastic">Plastic/Packaging</option>
+                    <option value="Chemical">Chemical Byproducts</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="quantity">Quantity (e.g., 500 kg or 200 Liters):</label>
+                <input type="text" id="quantity" name="quantity" required placeholder="Quantity and Unit (e.g., 100 kg)">
+
+                <label for="location">Pickup Location (for Map Discovery):</label>
+                <input type="text" id="location" name="location" required placeholder="City, Area, or Postal Code">
+                
+                <label for="description">Detailed Description:</label>
+                <textarea id="description" name="description" rows="4" required placeholder="Include condition, safety notes, and minimum pickup quantity."></textarea>
+                
+                <button type="submit">Post Listing</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- REQUEST MATERIAL Section (The NEW Form) - Initially Hidden by CSS -->
+    <section id="request-material" class="request-material-section">
+        <div class="container">
+            <h2 data-aos="fade-down">🔍 Request Specific Materials</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Post a request, and we will match you with industries that produce that waste.</p>
+            
+            <form id="requestForm" class="request-form">
+                <label for="requestName">Material You Need:</label>
+                <input type="text" id="requestName" name="material" required placeholder="e.g., HDPE Plastic Pellets">
+
+                <label for="requestType">Required Category:</label>
+                <select id="requestType" name="category" required>
+                    <option value="" disabled selected>Select a Category</option>
+                    <option value="Metal">Metal Scraps</option>
+                    <option value="Oil">Used Oils/Lubricants</option>
+                    <option value="Plastic">Plastic/Packaging</option>
+                    <option value="Chemical">Chemical Byproducts</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="requiredQuantity">Required Quantity:</label>
+                <input type="text" id="requiredQuantity" name="requiredQuantity" required placeholder="e.g., 5,000 kg/month">
+                
+                <label for="useCase">Intended Use/Application:</label>
+                <textarea id="useCase" name="useCase" rows="4" required placeholder="Briefly describe how you will reuse the material."></textarea>
+                
+                <button type="submit">Submit Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section id="rewards" class="rewards">
+        <div class="container">
+            <h2 data-aos="fade-up" data-aos-duration="800">🏆 Reward System</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Companies and students earn <strong>"EcoTrade Points"</strong> for each successful waste exchange transaction.</p>
+            
+            <div class="rewards-content">
+                <div class="rewards-left" data-aos="slide-right" data-aos-delay="200">
+                    <h3>How It Works:</h3>
+                    <ul>
+                        <li data-aos="fade-right" data-aos-delay="300">✅ Earn points for every successful waste transaction</li>
+                        <li data-aos="fade-right" data-aos-delay="400">📊 Points displayed on a public leaderboard</li>
+                        <li data-aos="fade-right" data-aos-delay="500">🌟 Reach "Net Zero Trader" status after reusing a certain tonnage</li>
+                        <li data-aos="fade-right" data-aos-delay="600">🏅 Compete with other companies for top sustainability rankings</li>
+                    </ul>
+                </div>
+                
+                <div class="rewards-right" data-aos="slide-left" data-aos-delay="200">
+                    <h3>Leaderboard Preview</h3>
+                    <div class="leaderboard-placeholder">
+                        <p data-aos="zoom-in" data-aos-delay="700">🥇 Top Trader: 2,540 points</p>
+                        <p data-aos="zoom-in" data-aos-delay="800">🥈 Second Place: 1,890 points</p>
+                        <p data-aos="zoom-in" data-aos-delay="900">🥉 Third Place: 1,650 points</p>
+                        <p data-aos="fade-up" data-aos-delay="1000"><em>(Live data coming soon!)</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 data-aos="fade-down" data-aos-duration="800">📧 Request a Demo</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Interested in joining SmartWaste Network? Contact us!</p>
+            
+            <form id="contactForm" class="contact-form" data-aos="zoom-in" data-aos-delay="200">
+                <input type="text" name="company" placeholder="Company Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="tel" name="phone" placeholder="Phone Number">
+                <textarea name="message" placeholder="Tell us about your waste management needs" rows="5" required></textarea>
+                <button type="submit">Request Demo</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-duration="250">
+        <p>&copy; 2025 SmartWaste Network | Industrial Waste Exchange Platform</p>
+        <p>Building a sustainable future through circular economy 🌱</p>
+    </footer>
+
+    <script src="script.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,           
+            easing: 'ease-out-cubic', 
+            once: false,              
+            mirror: true,             
+            offset: 100,              
+            delay: 0,                 
+        });
+    </script>
+</body>
+</html>

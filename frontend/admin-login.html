@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/>
+  <meta name='viewport' content='width=device-width,initial-scale=1'/>
+  <title>Admin Login — SmartWaste</title>
+  <link rel='stylesheet' href='auth.css'>
+</head>
+<body>
+  <div class='center-wrap'>
+    <div class='card'>
+      <div class='brand'>
+        <img src='sandbox:/mnt/data/0cd98ac9-3680-4a1c-b14e-18c7889d2eda.png' alt='logo'/>
+        <div>
+          <h1>SmartWaste Admin</h1>
+          <p>Admin login — glass control panel</p>
+        </div>
+      </div>
+
+      <div class='form-row'>
+        <input id='admin-email' class='input' placeholder='admin email' value='admin@example.com'/>
+        <input id='admin-pass' type='password' class='input' placeholder='password' value='admin123'/>
+      </div>
+      <button id='admin-login-btn' class='btn'>Sign in as Admin</button>
+      <div class='link'><a href='user-login.html'>Switch to User Login</a></div>
+      <div id='admin-msg' class='small'></div>
+    </div>
+  </div>
+
+  <script src='login.js'></script>
+  <script>
+    document.getElementById('admin-login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('admin-email').value;
+      const pw = document.getElementById('admin-pass').value;
+      try {
+        const data = await doLogin('/api/auth/login', email, pw);
+        if (data.user.role !== 'admin') {
+          document.getElementById('admin-msg').textContent = 'Not an admin account';
+          return;
+        }
+        window.location.href = 'admin-dashboard.html';
+      } catch (err) {
+        document.getElementById('admin-msg').textContent = (err && err.error) ? err.error : (err && err.msg) ? err.msg : 'Login failed';
+      }
+    });
+  </script>
+</body>
+</html>

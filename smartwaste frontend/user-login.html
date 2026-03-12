@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <title>SmartWaste — Login</title>
+  <link rel='stylesheet' href='auth.css'>
+</head>
+<body>
+  <main class='login-wrap'>
+    <h1>SmartWaste — Login</h1>
+    <form id='loginForm'>
+      <label>
+        Email
+        <input type='email' id='email' name='email' required placeholder='admin@example.com'>
+      </label>
+      <label>
+        Password
+        <input type='password' id='password' name='password' required placeholder='admin123'>
+      </label>
+      <button type='submit'>Login</button>
+      <div id='msg' role='status' aria-live='polite'></div>
+    </form>
+    <p class='hint'>Testing credentials: <strong>admin@example.com/admin123</strong> or <strong>user@example.com/user123</strong></p>
+  </main>
+  <script src='login.js'></script>
+</body>
+</html>

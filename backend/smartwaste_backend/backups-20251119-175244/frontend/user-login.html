@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/>
+  <meta name='viewport' content='width=device-width,initial-scale=1'/>
+  <title>User Login — SmartWaste</title>
+  <link rel='stylesheet' href='auth.css'>
+</head>
+<body>
+
+  <div class='center-wrap'>
+    <div class='card'>
+      <h1>SmartWaste — User Login</h1>
+
+      <input id='user-email' class='input' placeholder='Email' value='user@example.com'>
+      <input id='user-pass' class='input' type='password' placeholder='Password' value='user123'>
+
+      <button id='user-login-btn' class='btn'>Sign in</button>
+
+      <div class='link'><a href='admin-login.html'>Admin login</a></div>
+      <div id='user-msg' class='small'></div>
+    </div>
+  </div>
+
+  <script src='login.js'></script>
+
+  <script>
+    document.getElementById('user-login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('user-email').value;
+      const pw = document.getElementById('user-pass').value;
+
+      try {
+        const data = await doLogin('/api/auth/login', email, pw);
+
+        if (data.user.role !== 'user') {
+          document.getElementById('user-msg').textContent = 'Not a user account!';
+          return;
+        }
+
+        window.location.href = 'user-dashboard.html';
+      } catch (err) {
+        document.getElementById('user-msg').textContent =
+          (err && err.msg) ? err.msg : 'Invalid credentials';
+      }
+    });
+  </script>
+
+</body>
+</html>

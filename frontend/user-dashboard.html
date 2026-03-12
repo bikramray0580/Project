@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1'/>
+  <title>User Dashboard — SmartWaste</title>
+  <link rel='stylesheet' href='auth.css'>
+</head>
+<body>
+  <div style='max-width:1100px;margin:18px auto;padding:12px;'>
+    <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:14px'>
+      <div style='display:flex;gap:12px;align-items:center'>
+        <img src='sandbox:/mnt/data/0cd98ac9-3680-4a1c-b14e-18c7889d2eda.png' style='width:56px;height:56px;border-radius:10px'>
+        <div><h2 style='margin:0'>User Dashboard</h2><small id='user-email-display' class='small-muted'></small></div>
+      </div>
+      <div>
+        <button id='logoutBtn' class='action-btn'>Log out</button>
+      </div>
+    </div>
+
+    <div class='card-sm'>
+      <h3>My Actions</h3>
+      <div class='small-muted'>Post a new waste listing or view & manage your posted items</div>
+      <div style='margin-top:12px'>
+        <a href='index.html' class='action-btn' style='display:inline-block;text-decoration:none'>Go to Public Site</a>
+      </div>
+    </div>
+
+    <div class='card-sm'>
+      <h3>Your Listings</h3>
+      <div id='my-wastes'></div>
+    </div>
+
+    <div class='card-sm'>
+      <h3>Your Requests</h3>
+      <div id='my-requests'></div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const role = localStorage.getItem('role');
+      if (!role || role !== 'user') {
+        alert('User access only');
+        window.location.href = 'user-login.html';
+      }
+      document.getElementById('user-email-display').textContent = localStorage.getItem('userEmail') || '';
+    })();
+  </script>
+
+  <script>
+    const API_BASE='/api';
+    const token = localStorage.getItem('token');
+    document.getElementById('logoutBtn').addEventListener('click', ()=>{ localStorage.clear(); window.location.href='user-login.html'; });
+
+    async function fetchJSON(path, opts={}) {
+      opts.headers = Object.assign(opts.headers || {}, { 'Content-Type':'application/json', 'Authorization': 'Bearer ' + token });
+      const res = await fetch(API_BASE + path, opts);
+      if (!res.ok) throw await res.json().catch(()=>({error:'fetch failed'}));
+      return res.json();
+    }
+
+    async function loadUserItems() {
+      try {
+        const wastes = await fetchJSON('/waste');
+        const wastesArr = Array.isArray(wastes) ? wastes : (wastes.wastes || []);
+        document.getElementById('my-wastes').innerHTML = (wastesArr.length ? wastesArr.map(w => 
+          <div class='list-item'><div class='item-left'><strong></strong><div class='small-muted'> • </div></div>
+            <div class='item-right'><button class='action-btn' onclick='deleteWaste()'>Delete</button></div></div>
+        ).join('') : '<p class=\"small-muted\">No posted listings</p>');
+      } catch (e) {
+        console.error(e); document.getElementById('my-wastes').innerHTML = '<p class=\"small-muted\">Failed to load</p>';
+      }
+
+      try {
+        const reqs = await fetchJSON('/request');
+        const reqArr = reqs.requests || reqs;
+        document.getElementById('my-requests').innerHTML = (reqArr.length ? reqArr.map(r => 
+          <div class='list-item'><div class='item-left'><strong></strong><div class='small-muted'> • </div></div></div>
+        ).join('') : '<p class=\"small-muted\">No requests</p>');
+      } catch (e) {
+        console.error(e); document.getElementById('my-requests').innerHTML = '<p class=\"small-muted\">Failed to load</p>';
+      }
+    }
+
+    async function deleteWaste(id) {
+      if (!confirm('Delete this waste?')) return;
+      try {
+        await fetchJSON(/waste/, { method: 'DELETE' });
+        await loadUserItems();
+      } catch (e) { alert('Delete failed'); console.error(e); }
+    }
+
+    loadUserItems();
+  </script>
+</body>
+</html>
